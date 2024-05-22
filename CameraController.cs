@@ -25,15 +25,15 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
         {
-            // Rotate the camera around the cameraAim
+            // Rotate the camera around the cameraAim in the opposite direction
             if (Input.GetMouseButton(0) && cameraAim != null)
             {
                 float rotationX = Input.GetAxis("Mouse X") * rotationSpeed;
                 float rotationY = Input.GetAxis("Mouse Y") * rotationSpeed;
 
-                // Rotate around the cameraAim's position
-                transform.RotateAround(cameraAim.position, Vector3.up, -rotationX);
-                transform.RotateAround(cameraAim.position, transform.right, rotationY);
+                // Rotate around the cameraAim's position in the opposite direction
+                transform.RotateAround(cameraAim.position, Vector3.up, rotationX);
+                transform.RotateAround(cameraAim.position, transform.right, -rotationY);
             }
 
             // Pan the camera
