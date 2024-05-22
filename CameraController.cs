@@ -7,25 +7,33 @@ public class CameraController : MonoBehaviour
     public float zoomSpeed = 0.5f;
     public Vector3 defaultPosition;
     public Quaternion defaultRotation;
+    public Transform cameraAim;
 
     void Start()
     {
         // Save the default position and rotation
         defaultPosition = transform.position;
         defaultRotation = transform.rotation;
+
+        if (cameraAim == null)
+        {
+            Debug.LogError("Camera Aim object is not set. Please set the cameraAim GameObject in the inspector.");
+        }
     }
 
     void Update()
     {
         if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
         {
-            // Rotate the camera
-            if (Input.GetMouseButton(0))
+            // Rotate the camera around the cameraAim
+            if (Input.GetMouseButton(0) && cameraAim != null)
             {
                 float rotationX = Input.GetAxis("Mouse X") * rotationSpeed;
                 float rotationY = Input.GetAxis("Mouse Y") * rotationSpeed;
-                transform.Rotate(Vector3.up, -rotationX, Space.World);
-                transform.Rotate(Vector3.right, rotationY, Space.Self);
+
+                // Rotate around the cameraAim's position
+                transform.RotateAround(cameraAim.position, Vector3.up, -rotationX);
+                transform.RotateAround(cameraAim.position, transform.right, rotationY);
             }
 
             // Pan the camera
